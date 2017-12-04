@@ -15,10 +15,10 @@ int main(){
   int loop = 1;
   char delim  [1];
   char notice [] = "pick Delim\n";
-  write(1,notice,11);
-  read(0,delim,1);
+  //write(1,notice,11);
+  //read(0,delim,1);
   
-  char string []= "type 'exit'to exit\n";
+  /*char string []= "type 'exit'to exit\n";
   write(1,string,19);
   while(loop){
     char a []= "$";
@@ -29,7 +29,7 @@ int main(){
     printArray(temp,array,delim[0]);
     freeMem(temp, array,delim[0]);
   }
-  array = mytoc(string1,' ');
+  */  array = mytoc(string1,' ');
   printArray(string1,array,' ');
   freeMem(string1,array,' ');
   printf("\n");

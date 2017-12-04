@@ -4,29 +4,16 @@
 
 #include "mytoc.h"
 
-/*int main(){
-  char inputString [100];
-  char ** array;
-  read(0,inputString,100);
-  int count = wordCounter(inputString);
-  array = mytoc(inputString);
-  printArray(inputString,array);  
-  freeMem(inputString,array);
-  
-  return 0;
-}
-*/
-
 int wordCounter(char * string,char delim){//works
   int counter = 0;
   int looper = 0;
-  if((string[looper]!='\n') && string[looper] != delim){//needed to add first word ifs its the first on string
+  if((string[looper]!='\n') && string[looper] != '\0' && string[looper] != delim){//needed to add first word ifs its the first on string
     counter++;
   }
-  while(string[looper]!='\n'){
+  while(string[looper]!='\n' && string[looper]!='\0'){
       if(string[looper] == delim){
       int temp = looper + 1;
-      if(string[temp] != '\n' && string[temp] != delim){//checks for multiple spaces
+      if(string[temp] != '\n' && string[temp]!= '\0' && string[temp] != delim){//checks for multiple spaces
 	counter++;
       }
     }
@@ -38,7 +25,7 @@ int wordCounter(char * string,char delim){//works
 char ** mytoc(char * string,char delim){
   char ** wordArray;
   int words = wordCounter(string,delim);
-  wordArray = malloc(words*sizeof(char *));
+  wordArray = malloc(words*sizeof(char *)+1);
   wordArray = lengthOfWord(string,wordArray,delim);
   return wordArray;
 }
@@ -49,9 +36,9 @@ void freeMem(char * string, char ** wordArray,char delim){
    while(counter != words){
      printf("mem free %x %s\n",wordArray[counter],wordArray[counter]);
     free(wordArray[counter]);
-    counter++;  
+    counter++;
     }
-  printf("mem free %x\n",wordArray);
+   printf("mem free %x\n",wordArray);
   free(wordArray);
 }
 
@@ -61,8 +48,8 @@ char ** lengthOfWord (char * string,char ** wordArray,char delim){//allocates me
   int wordStart = 0;
   int inserter = 0;
   
-  while(string[loop] != '\n'){
-    if(string[loop] != delim){
+  while(string[loop] != '\n' && string[loop] != '\0'){
+    if(string[loop] != delim && string[loop]!='"'){
       length++;
     }
     else{
@@ -70,16 +57,19 @@ char ** lengthOfWord (char * string,char ** wordArray,char delim){//allocates me
 	int temploop = 0;
 	wordArray[inserter] = malloc(length+1);
 	while(temploop != length){
+	  
 	  wordArray[inserter][temploop] = string[wordStart];
 	  temploop++;
 	  wordStart++;
 	}
+	wordArray[inserter][temploop] = '\0';
 	inserter++;
       }
+      
       wordStart = loop+1;
       length = 0;
     }
-    if(length != 0 && string[loop+1] == '\n'){
+    if(length != 0 && string[loop+1] == '\n' || string[loop+1] == '\0'){
       int temploop = 0;
       wordArray[inserter] = malloc(length+1);
       while(temploop != length){
@@ -87,6 +77,7 @@ char ** lengthOfWord (char * string,char ** wordArray,char delim){//allocates me
 	temploop++;
 	wordStart++;
       }
+      wordArray[inserter][temploop] = '\0';
       inserter++;     
     }
     loop++;
