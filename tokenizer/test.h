@@ -1,1 +1,0 @@
-int compareString(char * string);
